@@ -2,9 +2,9 @@ export function seedDatabase(firebase) {
   const users = [
     {
       userId: "N4Gahg063oacl9iRbCh6jTO350l1",
-      username: "JorPan",
-      fullName: "Jordan Panasewicz",
-      emailAddress: "jorpantech@gmail.com",
+      username: "Karl",
+      fullName: "Karl Hadwen",
+      emailAddress: "karlhadwen@gmail.com",
       following: ["2"],
       followers: ["2", "3", "4"],
       dateCreated: Date.now(),
