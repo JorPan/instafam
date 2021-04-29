@@ -19,5 +19,5 @@ export default function Login() {
     document.title = "Login - Instafam";
   }, []);
 
-  return <p>Log In Page</p>;
+  return <p>Log In Page!</p>;
 }
