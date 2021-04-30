@@ -3,6 +3,7 @@ import { useState, useContext, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import FirebaseContext from "../context/firebase";
 import * as ROUTES from "../constants/routes";
+import { doesUsernameExist } from "../services/firebase";
 
 export default function SignUp() {
   const history = useHistory();
@@ -19,8 +20,36 @@ export default function SignUp() {
   const handleSignUp = async (event) => {
     event.preventDefault();
 
-    try {
-    } catch (error) {}
+    const usernameExists = await doesUsernameExist(username);
+    if (usernameExists.length === 0) {
+      try {
+        const createdUserResult = await firebase
+          .auth()
+          .createUserWithEmailAndPassword(emailAddress, password);
+
+        await createdUserResult.user.updateProfile({
+          displayName: username,
+        });
+
+        await firebase.firestore().collection("users").add({
+          userId: createdUserResult.user.uid,
+          username: username.toLowerCase(),
+          fullName,
+          emailAddress: emailAddress.toLowerCase(),
+          following: [],
+          dateCreated: Date.now(),
+        });
+
+        history.push(ROUTES.DASHBOARD);
+      } catch (error) {
+        setfullName("");
+        setEmailAddress("");
+        setPassword("");
+        setError(error.message);
+      }
+    } else {
+      setError("That username is already taken, please try another.");
+    }
   };
 
   useEffect(() => {
@@ -90,7 +119,7 @@ export default function SignUp() {
         <div className="flex justify-center items-center flex-col w-full bg-white p-4 rounded border border-gray-primary">
           <p className="text-sm">
             Have an account? {``}
-            <Link to="/login" className="font-bold text-blue-medium">
+            <Link to={ROUTES.LOGIN} className="font-bold text-blue-medium">
               Log In
             </Link>
           </p>
