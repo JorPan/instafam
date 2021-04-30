@@ -4,31 +4,27 @@ import { Link, useHistory } from "react-router-dom";
 import FirebaseContext from "../context/firebase";
 import * as ROUTES from "../constants/routes";
 
-export default function Login() {
+export default function SignUp() {
   const history = useHistory();
   const { firebase } = useContext(FirebaseContext);
 
+  const [username, setUsername] = useState("");
+  const [fullName, setfullName] = useState("");
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
 
   const [error, setError] = useState("");
   const isInvalid = password === "" || emailAddress === "";
 
-  const handleLogin = async (event) => {
+  const handleSignUp = async (event) => {
     event.preventDefault();
 
     try {
-      await firebase.auth().signInWithEmailAndPassword(emailAddress, password);
-      history.push(ROUTES.DASHBOARD);
-    } catch (error) {
-      setEmailAddress("");
-      setPassword("");
-      setError(error.message);
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {
-    document.title = "LogIn.staFam";
+    document.title = "Sign Up InstaFam";
   }, []);
 
   return (
@@ -48,7 +44,23 @@ export default function Login() {
 
           {error && <p className="mb-4 text-xs text-red-primary">{error}</p>}
 
-          <form onSubmit={handleLogin} method="POST">
+          <form onSubmit={handleSignUp} method="POST">
+            <input
+              aria-label="Enter your username"
+              type="text"
+              placeholder="Username"
+              className="text-sm text-gray-base w-full mr-3 py-5 px-4 h-2 border border-gray-primary rounded mb-2"
+              onChange={({ target }) => setUsername(target.value)}
+              value={username}
+            />
+            <input
+              aria-label="Enter your full name"
+              type="text"
+              placeholder="Full name"
+              className="text-sm text-gray-base w-full mr-3 py-5 px-4 h-2 border border-gray-primary rounded mb-2"
+              onChange={({ target }) => setfullName(target.value)}
+              value={fullName}
+            />
             <input
               aria-label="Enter your email address"
               type="text"
@@ -77,9 +89,9 @@ export default function Login() {
         </div>
         <div className="flex justify-center items-center flex-col w-full bg-white p-4 rounded border border-gray-primary">
           <p className="text-sm">
-            Don't have an account? {``}
-            <Link to="/signup" className="font-bold text-blue-medium">
-              Sign Up
+            Have an account? {``}
+            <Link to="/login" className="font-bold text-blue-medium">
+              Log In
             </Link>
           </p>
         </div>
