@@ -16,8 +16,12 @@ export default function Login() {
   const handleLogin = () => {};
 
   useEffect(() => {
-    document.title = "Login - Instafam";
+    document.title = "LogIn.staFam";
   }, []);
 
-  return <p>Log In Page!</p>;
+  return (
+    <div className="container flex mx-auto max-w-screen-md items-center h-screen">
+      <p>I have no idea!</p>
+    </div>
+  );
 }
